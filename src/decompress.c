@@ -31,12 +31,12 @@ void decompress(const char *input_filename) {
     while ((ch = fgetc(in)) != EOF) {
         for (int i = 7; i >= 0 && bits_read < bit_total; i--) {
             int bit = (ch >> i) & 1;
+            bits_read++;
             current = bit ? current->right : current->left;
 
             if (is_leaf(current)) {
                 fputc(current->c, out);
                 current = root;
-                bits_read++;
             }
         }
     }
