@@ -1,13 +1,15 @@
 CC     = gcc
 CFLAGS = -Wall -Wextra -g
 SRC    = src/huffman.c src/heap.c src/compress.c src/decompress.c src/main.c
-OBJ    = $(SRC:.c=.o)
-TARGET = huffman
+TARGET = bin/huffman
 
-all: $(TARGET)
+all: bin $(TARGET)
+
+bin:
+	mkdir -p bin
 
 $(TARGET): $(SRC)
 	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
 
 clean:
-	rm -f $(TARGET) src/*.o
+	rm -rf bin
