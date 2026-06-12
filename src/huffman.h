@@ -2,39 +2,36 @@
 #include <stdbool.h>
 
 #define OFFSET_INCREMENT 10
+#define MAX_SYMBOLS      256
 
-typedef struct Node
-{
+typedef struct Node {
     unsigned char c;
-    int freq;
-    struct Node *left;
-    struct Node *right;
+    int           freq;
+    struct Node  *left;
+    struct Node  *right;
 } Node;
 
-// Min-Heap
 typedef struct {
     Node **data;
     int    size;
     int    capacity;
 } MinHeap;
 
+/* Node */
+Node    *create_node(unsigned char c, int freq);
+bool     is_leaf(Node *node);
+void     free_tree(Node *node);
+void     print_huffman_tree(Node *node);
+void     print_tree_util_(Node *node, int offset);
+void     serialize_huffman_tree(Node *node, FILE *file);
+Node    *deserialize_huffman_tree(FILE *file);
 
-Node* create_node(unsigned char c, int freq);
-
-bool is_leaf(Node *node);
-
-void serialize_huffman_tree(Node *node, FILE *file);
-
-Node* deserialize_huffman_tree(FILE *file);
-
-void free_tree(Node *node);
-
-void print_huffman_tree(Node *node);
-
-void print_tree_util_ (Node *node, int offset);
-
-// Min Heap
+/* Heap */
 MinHeap *create_heap(int capacity);
 void     heap_insert(MinHeap *heap, Node *node);
 Node    *heap_extract_min(MinHeap *heap);
 void     free_heap(MinHeap *heap);
+
+/* Compress / Decompress */
+void compress(const char *input_filename);
+void decompress(const char *input_filename);
